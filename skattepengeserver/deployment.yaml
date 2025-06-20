@@ -1,0 +1,31 @@
+# deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mario
+  namespace: erikandreasklokk
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: mario
+  template:
+    metadata:
+      labels:
+        app: mario
+    spec:
+      containers:
+        - name: mario
+          image: pengbai/docker-supermario
+          ports:
+            - name: http
+              containerPort: 8080
+          envFrom:
+            - configMapRef:
+                name: whoami-config
+          resources:
+            requests:
+              cpu: 10m
+              memory: 12Mi
+            limits:
+              memory: 24Mi
